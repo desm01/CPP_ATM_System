@@ -18,9 +18,27 @@ string get_user_input() {
 }
 
 string get_user_pin_code() {
-cout << "Welcome to the Banking System\nEnter your PIN code..." << endl;
+cout << "\n\n\nEnter your PIN code..." << endl;
 string pin = get_user_input();
 return pin;
+}
+
+
+void enter_pin_code(Account& currentAccount, Account* list_of_accounts) {
+	
+	if (currentAccount.user_is_locked_out() == true) {
+		cout << "You have been locked out" << endl;
+	}
+
+	else {
+		string pin_code = get_user_pin_code();
+
+		currentAccount.enter_card_number(pin_code);
+
+		if (currentAccount.get_sign_in_status() != true) {
+			enter_pin_code(currentAccount, list_of_accounts);
+		}
+	}
 }
 
 
@@ -31,7 +49,7 @@ getline(cin, name);
 
 Account currentAccount;
 
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 5; i++) {
 	if (name == list_of_accounts[i].get_name()) {
 		currentAccount = list_of_accounts[i];
 		cout << "Successfully found your account" << endl;
@@ -39,21 +57,16 @@ for (int i = 0; i < 10; i++) {
 	}
 }
 
-if (currentAccount.get_name() == "") {
+if (currentAccount.get_name() == " ") {
 	cout << "Error, your name is entered incorrectly, please try again" << endl;
 	start_program(list_of_accounts);
 }
 else {
-string pin_code = get_user_pin_code();
-
-cout << currentAccount.enter_card_number(pin_code);
-
-if (currentAccount.get_sign_in_status() != true) {
-start_program(list_of_accounts);
-}
+	enter_pin_code(currentAccount, list_of_accounts);
 }
 
 }
+
 
 
 Account* initalise_data() {

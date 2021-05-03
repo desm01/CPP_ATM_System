@@ -4,6 +4,9 @@
 #include "Person.h"
 #include "Card.h"
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 using std::string;
 
@@ -27,20 +30,31 @@ class Account {
 			return signed_in;
 		}
 
-		string enter_card_number(string PIN_CODE) {
+		bool user_is_locked_out() {
+			if (attempts_remaining == 0) {
+				return true;
+			}
+
+			return false;
+		}
+
+		bool enter_card_number(string PIN_CODE) {
 			if (user_is_locked_out() == true) {
-				return "You have been locked out, please contact customer support at +123456789";
+				cout << "You have been locked out, please contact customer support at +123456789" << endl;
+				return false;
 			}
 			else {
 				if (check_pin_code_is_correct(PIN_CODE) == true) {
 					signed_in = true;
 					attempts_remaining = 5;
-					return "PIN is correct!";
+					cout << "PIN is correct!" << endl;;
+					return true;
 					}
 				else {
 					signed_in = false;
 					attempts_remaining--;
-					return "Error, the code you've entered is incorrect";
+					cout << "Error, the code you've entered is incorrect\n\n\n\nYou have: " << attempts_remaining << " attempts remaining"  << endl;
+					return false;
 				}
 			
 			}
@@ -63,13 +77,7 @@ class Account {
 
 		}
 		
-		bool user_is_locked_out() {
-			if (attempts_remaining < 0) {
-				return true;
-			}
 
-			return false;
-		}
 
 };
 
