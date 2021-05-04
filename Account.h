@@ -15,11 +15,23 @@ class Account {
 		Account() {
 			
 		}
-		Account(Person _person, Card _card, string _account_type, int _account_number):
-			person(_person), card(_card), account_type(_account_type), account_number(_account_number) {};
+		Account(Person _person, Card _card, string _account_type, int _account_number, int _current_balance):
+			person(_person), card(_card), account_type(_account_type), account_number(_account_number), current_balance(_current_balance) {};
 
 		string get_name()  {
 			return person.get_name();
+		}
+
+		int get_account_number() {
+			return account_number;
+		}
+
+		void detuct_from_balance(int amount_to_be_detucted) {
+			current_balance = current_balance - amount_to_be_detucted;
+		}
+
+		int get_balance() {
+			return current_balance;
 		}
 
 		string get_account_type() const {
@@ -68,7 +80,8 @@ class Account {
 		Card card;
 		string account_type;
 		int account_number;
-			
+		int current_balance;
+
 		bool signed_in;
 		int attempts_remaining = 5;
 		
