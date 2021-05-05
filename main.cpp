@@ -24,50 +24,50 @@ return pin;
 }
 
 
-void enter_pin_code(Account& currentAccount, Account* list_of_accounts) {
+void enter_pin_code(Account* currentAccount, Account* list_of_accounts) {
 	
-	if (currentAccount.user_is_locked_out() == true) {
+	if (currentAccount->user_is_locked_out() == true) {
 		cout << "You have been locked out" << endl;
 	}
 
 	else {
 		string pin_code = get_user_pin_code();
 
-		currentAccount.enter_card_number(pin_code);
+		currentAccount->enter_card_number(pin_code);
 
-		if (currentAccount.get_sign_in_status() != true) {
+		if (currentAccount->get_sign_in_status() != true) {
 			enter_pin_code(currentAccount, list_of_accounts);
 		}
 	}
 }
 
-void view_balance(Account& user) {
-	cout << user.get_balance() << endl;
+void view_balance(Account* user) {
+	cout << user->get_balance() << endl;
 
 }
 
-void withdraw_money(Account& user) {
-cout << "Your current balance = " << user.get_balance() << endl;
+void withdraw_money(Account* user) {
+cout << "Your current balance = " << user->get_balance() << endl;
 cout << "\n\nEnter the amount you wish to wirthdraw" << endl;
 
 int amount_to_detuct;
 cin >> amount_to_detuct;
 
-if (amount_to_detuct > user.get_balance()) {
+if (amount_to_detuct > user->get_balance()) {
 	cout << "Error, you do not have that amount of money in your account..." << endl;
 	return;
 }
 else {
 
-	user.detuct_from_balance(amount_to_detuct);
+	user->detuct_from_balance(amount_to_detuct);
 
 	cout << amount_to_detuct <<  " has been removed from your account" << endl;
-	cout << "Your new balance is: " << user.get_balance() << endl;
+	cout << "Your new balance is: " << user->get_balance() << endl;
 }
 
 }
 
-void ask_what_user_wants_to_do(Account& user) {
+void ask_what_user_wants_to_do(Account* user) {
 	int selectedOption;
 	cout << "Select Option: " << endl;
 	cout << "1. Withdraw Money" << endl;
@@ -107,17 +107,17 @@ int account_number;
 cout << "Enter your Account Number:" << endl;
 cin >> account_number;
 
-Account currentAccount;
+Account* currentAccount;
 
 for (int i = 0; i < 5; i++) {
 	if (account_number == list_of_accounts[i].get_account_number()) {
-		currentAccount = list_of_accounts[i];
+		currentAccount = &list_of_accounts[i];
 		cout << "Successfully found your account" << endl;
 		break;
 	}
 }
 
-if (currentAccount.get_name() == " ") {
+if (currentAccount->get_name() == " ") {
 	cout << "Error, your Account Number is entered incorrectly, please try again\n\n\n\n" << endl;
 	start_program(list_of_accounts);
 }
